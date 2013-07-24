@@ -1,0 +1,86 @@
+   1               		.file	"timer0.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	inittimer0
+  20               	inittimer0:
+  21               	.LFB6:
+  22               	.LM1:
+  23               	/* prologue: function */
+  24               	/* frame size = 0 */
+  25               	.LM2:
+  26 0000 83B7      		in r24,83-32
+  27 0002 8760      		ori r24,lo8(7)
+  28 0004 83BF      		out 83-32,r24
+  29               	.LM3:
+  30 0006 12BE      		out 82-32,__zero_reg__
+  31               	/* epilogue start */
+  32               	.LM4:
+  33 0008 0895      		ret
+  34               	.LFE6:
+  36               	.global	main
+  38               	main:
+  39               	.LFB7:
+  40               	.LM5:
+  41               	/* prologue: function */
+  42               	/* frame size = 0 */
+  43               	.LBB4:
+  44               	.LBB5:
+  45               	.LM6:
+  46 000a 83B7      		in r24,83-32
+  47 000c 8760      		ori r24,lo8(7)
+  48 000e 83BF      		out 83-32,r24
+  49               	.LM7:
+  50 0010 12BE      		out 82-32,__zero_reg__
+  51               	.LBE5:
+  52               	.LBE4:
+  53               	.LM8:
+  54 0012 8FEF      		ldi r24,lo8(-1)
+  55 0014 84BB      		out 52-32,r24
+  56               	.LVL0:
+  57               	.L9:
+  58 0016 20E0      		ldi r18,lo8(0)
+  59 0018 30E0      		ldi r19,hi8(0)
+  60               	.L8:
+  61               	.LM9:
+  62 001a 06B6      		in __tmp_reg__,86-32
+  63 001c 00FE      		sbrs __tmp_reg__,0
+  64 001e 00C0      		rjmp .L8
+  65               	.LM10:
+  66 0020 86B7      		in r24,86-32
+  67 0022 8160      		ori r24,lo8(1)
+  68 0024 86BF      		out 86-32,r24
+  69               	.LM11:
+  70 0026 2F5F      		subi r18,lo8(-(1))
+  71 0028 3F4F      		sbci r19,hi8(-(1))
+  72               	.LM12:
+  73 002a 2D33      		cpi r18,61
+  74 002c 3105      		cpc r19,__zero_reg__
+  75 002e 01F4      		brne .L8
+  76               	.LM13:
+  77 0030 85B3      		in r24,53-32
+  78 0032 8095      		com r24
+  79 0034 85BB      		out 53-32,r24
+  80 0036 00C0      		rjmp .L9
+  81               	.LFE7:
+ 115               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 timer0.c
+     /tmp/ccsTYjJU.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccsTYjJU.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccsTYjJU.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccsTYjJU.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccsTYjJU.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccsTYjJU.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccsTYjJU.s:20     .text:00000000 inittimer0
+     /tmp/ccsTYjJU.s:38     .text:0000000a main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

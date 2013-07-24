@@ -1,0 +1,381 @@
+
+linefollower.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001a2  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000001f6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000004f  00000000  00000000  00000216  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000018e  00000000  00000000  00000265  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000103  00000000  00000000  000003f3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000267  00000000  00000000  000004f6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000060  00000000  00000000  00000760  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000000c3  00000000  00000000  000007c0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00000030  00000000  00000000  00000883  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000030  00000000  00000000  000008b3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 66 00 	call	0xcc	; 0xcc <main>
+  64:	0c 94 cf 00 	jmp	0x19e	; 0x19e <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <Drive_motor>:
+#define BAUD_PRESCALE (((F_CPU/(USART_BAUDRATE*16UL)))-1)
+
+
+void Drive_motor(unsigned char left, unsigned char right)
+{
+	if(left==0) //stops left motor
+  6c:	88 23       	and	r24, r24
+  6e:	11 f4       	brne	.+4      	; 0x74 <Drive_motor+0x8>
+	{
+		PORTB&=~_BV(4);
+  70:	c4 98       	cbi	0x18, 4	; 24
+		PORTB&=~_BV(5);
+  72:	c5 98       	cbi	0x18, 5	; 24
+	}
+	
+	if(right==0) //stops right motor
+  74:	66 23       	and	r22, r22
+  76:	11 f4       	brne	.+4      	; 0x7c <Drive_motor+0x10>
+	{
+		PORTB&=~_BV(6);
+  78:	c6 98       	cbi	0x18, 6	; 24
+		PORTB&=~_BV(7);
+  7a:	c7 98       	cbi	0x18, 7	; 24
+	}
+	
+	if(left==1) //left motor - forward
+  7c:	81 30       	cpi	r24, 0x01	; 1
+  7e:	11 f4       	brne	.+4      	; 0x84 <Drive_motor+0x18>
+	{
+		PORTB|=_BV(4);
+  80:	c4 9a       	sbi	0x18, 4	; 24
+		PORTB&=~_BV(5);
+  82:	c5 98       	cbi	0x18, 5	; 24
+	}
+
+	if(right==1) //right motor - forward
+  84:	61 30       	cpi	r22, 0x01	; 1
+  86:	11 f4       	brne	.+4      	; 0x8c <Drive_motor+0x20>
+	{
+		PORTB|=_BV(7);
+  88:	c7 9a       	sbi	0x18, 7	; 24
+		PORTB&=~_BV(6);
+  8a:	c6 98       	cbi	0x18, 6	; 24
+	}
+
+	if(left==2) //left motor - backward
+  8c:	82 30       	cpi	r24, 0x02	; 2
+  8e:	11 f4       	brne	.+4      	; 0x94 <Drive_motor+0x28>
+	{
+		PORTB|=_BV(5);
+  90:	c5 9a       	sbi	0x18, 5	; 24
+		PORTB&=~_BV(4);
+  92:	c4 98       	cbi	0x18, 4	; 24
+	}
+
+	if(right==2) //right motor - backward
+  94:	62 30       	cpi	r22, 0x02	; 2
+  96:	11 f4       	brne	.+4      	; 0x9c <Drive_motor+0x30>
+	{
+		PORTB|=_BV(6);
+  98:	c6 9a       	sbi	0x18, 6	; 24
+		PORTB&=~_BV(7);
+  9a:	c7 98       	cbi	0x18, 7	; 24
+  9c:	08 95       	ret
+
+0000009e <sense1>:
+	}
+}
+
+int sense1()
+{
+	ADMUX=0x61; //registers for ADC
+  9e:	81 e6       	ldi	r24, 0x61	; 97
+  a0:	87 b9       	out	0x07, r24	; 7
+	ADCSRA=0x8F;
+  a2:	8f e8       	ldi	r24, 0x8F	; 143
+  a4:	86 b9       	out	0x06, r24	; 6
+	while((ADCSRA&(1<<ADIF))==0) {}
+  a6:	34 9b       	sbis	0x06, 4	; 6
+  a8:	fe cf       	rjmp	.-4      	; 0xa6 <sense1+0x8>
+	return(ADCH);
+  aa:	85 b1       	in	r24, 0x05	; 5
+}
+  ac:	90 e0       	ldi	r25, 0x00	; 0
+  ae:	08 95       	ret
+
+000000b0 <sense2>:
+
+int sense2()
+{
+	ADMUX=0x63; //registers for ADC
+  b0:	83 e6       	ldi	r24, 0x63	; 99
+  b2:	87 b9       	out	0x07, r24	; 7
+	ADCSRA=0x8F;
+  b4:	8f e8       	ldi	r24, 0x8F	; 143
+  b6:	86 b9       	out	0x06, r24	; 6
+	while((ADCSRA&(1<<ADIF))==0) {}
+  b8:	34 9b       	sbis	0x06, 4	; 6
+  ba:	fe cf       	rjmp	.-4      	; 0xb8 <sense2+0x8>
+	return(ADCH);
+  bc:	85 b1       	in	r24, 0x05	; 5
+}
+  be:	90 e0       	ldi	r25, 0x00	; 0
+  c0:	08 95       	ret
+
+000000c2 <ocr_drive>:
+ 
+
+
+void ocr_drive(int a,int b)
+{
+	OCR1A=a;
+  c2:	9b bd       	out	0x2b, r25	; 43
+  c4:	8a bd       	out	0x2a, r24	; 42
+	OCR1B=b;
+  c6:	79 bd       	out	0x29, r23	; 41
+  c8:	68 bd       	out	0x28, r22	; 40
+}
+  ca:	08 95       	ret
+
+000000cc <main>:
+
+int main(void)
+{
+  cc:	ff 92       	push	r15
+  ce:	0f 93       	push	r16
+  d0:	1f 93       	push	r17
+	DDRB=0xFF;
+  d2:	8f ef       	ldi	r24, 0xFF	; 255
+  d4:	87 bb       	out	0x17, r24	; 23
+	DDRD=0xFF;
+  d6:	81 bb       	out	0x11, r24	; 17
+	PORTB=0xFF;
+  d8:	88 bb       	out	0x18, r24	; 24
+	PORTD=0xFF;
+  da:	82 bb       	out	0x12, r24	; 18
+	PORTA=0x00;
+  dc:	1b ba       	out	0x1b, r1	; 27
+
+	DDRA&=~_BV(0);
+  de:	d0 98       	cbi	0x1a, 0	; 26
+	PORTA|=_BV(0);
+  e0:	d8 9a       	sbi	0x1b, 0	; 27
+	
+	UCSRB|=(1<<RXEN)|(1<<TXEN); //turn on rx and tx (can also be done using hex instead of 1<<RXEN)
+  e2:	8a b1       	in	r24, 0x0a	; 10
+  e4:	88 61       	ori	r24, 0x18	; 24
+  e6:	8a b9       	out	0x0a, r24	; 10
+	//1<<RXEN --> 1 shifted to RXEN.
+	UCSRC|=(1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1); // asynchronous | 8bit character sizes.
+  e8:	80 b5       	in	r24, 0x20	; 32
+  ea:	86 68       	ori	r24, 0x86	; 134
+  ec:	80 bd       	out	0x20, r24	; 32
+
+	UBRRL=BAUD_PRESCALE; //load lower 8bits of baud rate into UBRR low register
+  ee:	83 e3       	ldi	r24, 0x33	; 51
+  f0:	89 b9       	out	0x09, r24	; 9
+	UBRRH=(BAUD_PRESCALE>>8); //load upper 8 bits of baud rate into UBRR high register
+  f2:	10 bc       	out	0x20, r1	; 32
+	
+
+	ICR1=10000;
+  f4:	80 e1       	ldi	r24, 0x10	; 16
+  f6:	97 e2       	ldi	r25, 0x27	; 39
+  f8:	97 bd       	out	0x27, r25	; 39
+  fa:	86 bd       	out	0x26, r24	; 38
+	TCCR1A=(1<<COM1A1|1<<COM1B1|0<<COM1A0|0<<COM1B0|0<<FOC1A|0<<FOC1B|0<<WGM11|0<<WGM10); //check datasheet (can be written in hex/bin)
+  fc:	80 ea       	ldi	r24, 0xA0	; 160
+  fe:	8f bd       	out	0x2f, r24	; 47
+	TCCR1B=(1<<WGM13|1<<CS11|0<<CS12|0<<CS10|0<<WGM12|0<<ICNC1|0<<ICES1);    //check datasheet (can be written in hex/bin)
+ 100:	82 e1       	ldi	r24, 0x12	; 18
+ 102:	8e bd       	out	0x2e, r24	; 46
+	}
+}
+
+int sense1()
+{
+	ADMUX=0x61; //registers for ADC
+ 104:	81 e6       	ldi	r24, 0x61	; 97
+ 106:	f8 2e       	mov	r15, r24
+	ADCSRA=0x8F;
+ 108:	1f e8       	ldi	r17, 0x8F	; 143
+	return(ADCH);
+}
+
+int sense2()
+{
+	ADMUX=0x63; //registers for ADC
+ 10a:	03 e6       	ldi	r16, 0x63	; 99
+	int factor1=255/10000;
+	int factor2=255/10000;
+
+	for(;;)
+	{
+		Drive_motor(1,1);
+ 10c:	81 e0       	ldi	r24, 0x01	; 1
+ 10e:	61 e0       	ldi	r22, 0x01	; 1
+ 110:	0e 94 36 00 	call	0x6c	; 0x6c <Drive_motor>
+	}
+}
+
+int sense1()
+{
+	ADMUX=0x61; //registers for ADC
+ 114:	f7 b8       	out	0x07, r15	; 7
+	ADCSRA=0x8F;
+ 116:	16 b9       	out	0x06, r17	; 6
+	while((ADCSRA&(1<<ADIF))==0) {}
+ 118:	34 9b       	sbis	0x06, 4	; 6
+ 11a:	fe cf       	rjmp	.-4      	; 0x118 <main+0x4c>
+	return(ADCH);
+ 11c:	35 b1       	in	r19, 0x05	; 5
+}
+
+int sense2()
+{
+	ADMUX=0x63; //registers for ADC
+ 11e:	07 b9       	out	0x07, r16	; 7
+	ADCSRA=0x8F;
+ 120:	16 b9       	out	0x06, r17	; 6
+	while((ADCSRA&(1<<ADIF))==0) {}
+ 122:	34 9b       	sbis	0x06, 4	; 6
+ 124:	fe cf       	rjmp	.-4      	; 0x122 <main+0x56>
+	return(ADCH);
+ 126:	25 b1       	in	r18, 0x05	; 5
+ 
+
+
+void ocr_drive(int a,int b)
+{
+	OCR1A=a;
+ 128:	83 2f       	mov	r24, r19
+ 12a:	90 e0       	ldi	r25, 0x00	; 0
+ 12c:	60 e0       	ldi	r22, 0x00	; 0
+ 12e:	70 e0       	ldi	r23, 0x00	; 0
+ 130:	0e 94 a8 00 	call	0x150	; 0x150 <__divmodhi4>
+ 134:	7b bd       	out	0x2b, r23	; 43
+ 136:	6a bd       	out	0x2a, r22	; 42
+	OCR1B=b;
+ 138:	82 2f       	mov	r24, r18
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	60 e0       	ldi	r22, 0x00	; 0
+ 13e:	70 e0       	ldi	r23, 0x00	; 0
+ 140:	0e 94 a8 00 	call	0x150	; 0x150 <__divmodhi4>
+ 144:	79 bd       	out	0x29, r23	; 41
+ 146:	68 bd       	out	0x28, r22	; 40
+	{
+		Drive_motor(1,1);
+		int a=sense1();
+		int b=sense2();
+		ocr_drive((a/factor1),(b/factor2));
+		while((UCSRA&(1<<UDRE))==0){} //do nothing till UDR ready for more data
+ 148:	5d 9b       	sbis	0x0b, 5	; 11
+ 14a:	fe cf       	rjmp	.-4      	; 0x148 <main+0x7c>
+		UDR=a; //transfers data to TX UDR
+ 14c:	3c b9       	out	0x0c, r19	; 12
+ 14e:	de cf       	rjmp	.-68     	; 0x10c <main+0x40>
+
+00000150 <__divmodhi4>:
+ 150:	97 fb       	bst	r25, 7
+ 152:	09 2e       	mov	r0, r25
+ 154:	07 26       	eor	r0, r23
+ 156:	0a d0       	rcall	.+20     	; 0x16c <__divmodhi4_neg1>
+ 158:	77 fd       	sbrc	r23, 7
+ 15a:	04 d0       	rcall	.+8      	; 0x164 <__divmodhi4_neg2>
+ 15c:	0c d0       	rcall	.+24     	; 0x176 <__udivmodhi4>
+ 15e:	06 d0       	rcall	.+12     	; 0x16c <__divmodhi4_neg1>
+ 160:	00 20       	and	r0, r0
+ 162:	1a f4       	brpl	.+6      	; 0x16a <__divmodhi4_exit>
+
+00000164 <__divmodhi4_neg2>:
+ 164:	70 95       	com	r23
+ 166:	61 95       	neg	r22
+ 168:	7f 4f       	sbci	r23, 0xFF	; 255
+
+0000016a <__divmodhi4_exit>:
+ 16a:	08 95       	ret
+
+0000016c <__divmodhi4_neg1>:
+ 16c:	f6 f7       	brtc	.-4      	; 0x16a <__divmodhi4_exit>
+ 16e:	90 95       	com	r25
+ 170:	81 95       	neg	r24
+ 172:	9f 4f       	sbci	r25, 0xFF	; 255
+ 174:	08 95       	ret
+
+00000176 <__udivmodhi4>:
+ 176:	aa 1b       	sub	r26, r26
+ 178:	bb 1b       	sub	r27, r27
+ 17a:	51 e1       	ldi	r21, 0x11	; 17
+ 17c:	07 c0       	rjmp	.+14     	; 0x18c <__udivmodhi4_ep>
+
+0000017e <__udivmodhi4_loop>:
+ 17e:	aa 1f       	adc	r26, r26
+ 180:	bb 1f       	adc	r27, r27
+ 182:	a6 17       	cp	r26, r22
+ 184:	b7 07       	cpc	r27, r23
+ 186:	10 f0       	brcs	.+4      	; 0x18c <__udivmodhi4_ep>
+ 188:	a6 1b       	sub	r26, r22
+ 18a:	b7 0b       	sbc	r27, r23
+
+0000018c <__udivmodhi4_ep>:
+ 18c:	88 1f       	adc	r24, r24
+ 18e:	99 1f       	adc	r25, r25
+ 190:	5a 95       	dec	r21
+ 192:	a9 f7       	brne	.-22     	; 0x17e <__udivmodhi4_loop>
+ 194:	80 95       	com	r24
+ 196:	90 95       	com	r25
+ 198:	bc 01       	movw	r22, r24
+ 19a:	cd 01       	movw	r24, r26
+ 19c:	08 95       	ret
+
+0000019e <_exit>:
+ 19e:	f8 94       	cli
+
+000001a0 <__stop_program>:
+ 1a0:	ff cf       	rjmp	.-2      	; 0x1a0 <__stop_program>

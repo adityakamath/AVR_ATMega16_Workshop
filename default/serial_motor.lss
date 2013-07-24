@@ -1,0 +1,222 @@
+
+serial_motor.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000f4  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  00000148  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000002b  00000000  00000000  00000168  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   000000c3  00000000  00000000  00000193  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000076  00000000  00000000  00000256  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000196  00000000  00000000  000002cc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000030  00000000  00000000  00000464  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000000bd  00000000  00000000  00000494  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    0000003f  00000000  00000000  00000551  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 4f 00 	call	0x9e	; 0x9e <main>
+  64:	0c 94 78 00 	jmp	0xf0	; 0xf0 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <Drive_motor>:
+#define BAUD_PRESCALE (((F_CPU/(USART_BAUDRATE*16UL)))-1)
+
+
+void Drive_motor(unsigned char left, unsigned char right)
+{
+	if(left==0) //stops left motor
+  6c:	88 23       	and	r24, r24
+  6e:	11 f4       	brne	.+4      	; 0x74 <Drive_motor+0x8>
+	{
+		PORTB&=~_BV(4);
+  70:	c4 98       	cbi	0x18, 4	; 24
+		PORTB&=~_BV(5);
+  72:	c5 98       	cbi	0x18, 5	; 24
+	}
+	
+	if(right==0) //stops right motor
+  74:	66 23       	and	r22, r22
+  76:	11 f4       	brne	.+4      	; 0x7c <Drive_motor+0x10>
+	{
+		PORTB&=~_BV(6);
+  78:	c6 98       	cbi	0x18, 6	; 24
+		PORTB&=~_BV(7);
+  7a:	c7 98       	cbi	0x18, 7	; 24
+	}
+	
+	if(left==1) //left motor - forward
+  7c:	81 30       	cpi	r24, 0x01	; 1
+  7e:	11 f4       	brne	.+4      	; 0x84 <Drive_motor+0x18>
+	{
+		PORTB|=_BV(4);
+  80:	c4 9a       	sbi	0x18, 4	; 24
+		PORTB&=~_BV(5);
+  82:	c5 98       	cbi	0x18, 5	; 24
+	}
+
+	if(right==1) //right motor - forward
+  84:	61 30       	cpi	r22, 0x01	; 1
+  86:	11 f4       	brne	.+4      	; 0x8c <Drive_motor+0x20>
+	{
+		PORTB|=_BV(7);
+  88:	c7 9a       	sbi	0x18, 7	; 24
+		PORTB&=~_BV(6);
+  8a:	c6 98       	cbi	0x18, 6	; 24
+	}
+
+	if(left==2) //left motor - backward
+  8c:	82 30       	cpi	r24, 0x02	; 2
+  8e:	11 f4       	brne	.+4      	; 0x94 <Drive_motor+0x28>
+	{
+		PORTB|=_BV(5);
+  90:	c5 9a       	sbi	0x18, 5	; 24
+		PORTB&=~_BV(4);
+  92:	c4 98       	cbi	0x18, 4	; 24
+	}
+
+	if(right==2) //right motor - backward
+  94:	62 30       	cpi	r22, 0x02	; 2
+  96:	11 f4       	brne	.+4      	; 0x9c <Drive_motor+0x30>
+	{
+		PORTB|=_BV(6);
+  98:	c6 9a       	sbi	0x18, 6	; 24
+		PORTB&=~_BV(7);
+  9a:	c7 98       	cbi	0x18, 7	; 24
+  9c:	08 95       	ret
+
+0000009e <main>:
+} 
+
+int main()
+{
+	char ReceivedByte;
+	DDRB=0xFF;
+  9e:	8f ef       	ldi	r24, 0xFF	; 255
+  a0:	87 bb       	out	0x17, r24	; 23
+	DDRD=0xFF;
+  a2:	81 bb       	out	0x11, r24	; 17
+	PORTB=0xFF;
+  a4:	88 bb       	out	0x18, r24	; 24
+	PORTD=0xFF;
+  a6:	82 bb       	out	0x12, r24	; 18
+	PORTA=0x00;
+  a8:	1b ba       	out	0x1b, r1	; 27
+
+	UCSRB|=(1<<RXEN)|(1<<TXEN); //turn on rx and tx (can also be done using hex instead of 1<<RXEN)
+  aa:	8a b1       	in	r24, 0x0a	; 10
+  ac:	88 61       	ori	r24, 0x18	; 24
+  ae:	8a b9       	out	0x0a, r24	; 10
+	//1<<RXEN --> 1 shifted to RXEN.
+	UCSRC|=(1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1); // asynchronous | 8bit character sizes.
+  b0:	80 b5       	in	r24, 0x20	; 32
+  b2:	86 68       	ori	r24, 0x86	; 134
+  b4:	80 bd       	out	0x20, r24	; 32
+
+	UBRRL=BAUD_PRESCALE; //load lower 8bits of baud rate into UBRR low register
+  b6:	83 e3       	ldi	r24, 0x33	; 51
+  b8:	89 b9       	out	0x09, r24	; 9
+	UBRRH=(BAUD_PRESCALE>>8); //load upper 8 bits of baud rate into UBRR high register
+  ba:	10 bc       	out	0x20, r1	; 32
+
+	for(;;)
+	{
+		while((UCSRA&(1<<RXC))==0) {} //runs loop till data is received
+  bc:	5f 9b       	sbis	0x0b, 7	; 11
+  be:	fe cf       	rjmp	.-4      	; 0xbc <main+0x1e>
+
+		/* by default UCSRA receiving bit is 0. And 1<<RXC (receiving status register) is 1.
+		so loop continues till data is received which makes UCSRA receiving register 1. 
+		breaks out of loop*/
+
+		ReceivedByte=UDR; // data transferred to RX data register
+  c0:	8c b1       	in	r24, 0x0c	; 12
+
+		if(ReceivedByte=='w') 
+  c2:	87 37       	cpi	r24, 0x77	; 119
+  c4:	11 f4       	brne	.+4      	; 0xca <main+0x2c>
+		{
+			Drive_motor(1,1);
+  c6:	81 e0       	ldi	r24, 0x01	; 1
+  c8:	08 c0       	rjmp	.+16     	; 0xda <main+0x3c>
+		}
+		else if(ReceivedByte=='s') 
+  ca:	83 37       	cpi	r24, 0x73	; 115
+  cc:	19 f4       	brne	.+6      	; 0xd4 <main+0x36>
+		{
+			Drive_motor(2,2);
+  ce:	82 e0       	ldi	r24, 0x02	; 2
+  d0:	62 e0       	ldi	r22, 0x02	; 2
+  d2:	0b c0       	rjmp	.+22     	; 0xea <main+0x4c>
+		}
+		else if(ReceivedByte=='a') 
+  d4:	81 36       	cpi	r24, 0x61	; 97
+  d6:	19 f4       	brne	.+6      	; 0xde <main+0x40>
+		{
+			Drive_motor(0,1);
+  d8:	80 e0       	ldi	r24, 0x00	; 0
+  da:	61 e0       	ldi	r22, 0x01	; 1
+  dc:	06 c0       	rjmp	.+12     	; 0xea <main+0x4c>
+		}
+		else if(ReceivedByte=='d') 
+  de:	84 36       	cpi	r24, 0x64	; 100
+  e0:	11 f4       	brne	.+4      	; 0xe6 <main+0x48>
+		{
+			Drive_motor(1,0);
+  e2:	81 e0       	ldi	r24, 0x01	; 1
+  e4:	01 c0       	rjmp	.+2      	; 0xe8 <main+0x4a>
+		}
+		else
+		{
+			Drive_motor(0,0);
+  e6:	80 e0       	ldi	r24, 0x00	; 0
+  e8:	60 e0       	ldi	r22, 0x00	; 0
+  ea:	0e 94 36 00 	call	0x6c	; 0x6c <Drive_motor>
+  ee:	e6 cf       	rjmp	.-52     	; 0xbc <main+0x1e>
+
+000000f0 <_exit>:
+  f0:	f8 94       	cli
+
+000000f2 <__stop_program>:
+  f2:	ff cf       	rjmp	.-2      	; 0xf2 <__stop_program>

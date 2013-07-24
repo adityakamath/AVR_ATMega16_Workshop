@@ -1,0 +1,106 @@
+   1               		.file	"led.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	main
+  20               	main:
+  21               	.LFB6:
+  22               	.LM1:
+  23               	/* prologue: function */
+  24               	/* frame size = 0 */
+  25               	.LM2:
+  26 0000 8FEF      		ldi r24,lo8(-1)
+  27 0002 84BB      		out 52-32,r24
+  28               	.LM3:
+  29 0004 D39A      		sbi 58-32,3
+  30               	.LM4:
+  31 0006 4FEF      		ldi r20,lo8(-1)
+  32               	.LBB18:
+  33               	.LBB19:
+  34               	.LBB20:
+  35               	.LBB21:
+  36               	.LM5:
+  37 0008 20E9      		ldi r18,lo8(400)
+  38 000a 31E0      		ldi r19,hi8(400)
+  39               	.LVL0:
+  40               	.L4:
+  41               	.LBE21:
+  42               	.LBE20:
+  43               	.LBE19:
+  44               	.LBE18:
+  45               	.LM6:
+  46 000c 45BB      		out 53-32,r20
+  47 000e 88E8      		ldi r24,lo8(5000)
+  48 0010 93E1      		ldi r25,hi8(5000)
+  49               	.LVL1:
+  50               	.L2:
+  51               	.LBB25:
+  52               	.LBB24:
+  53               	.LBB23:
+  54               	.LBB22:
+  55               	.LM7:
+  56 0012 F901      		movw r30,r18
+  57               	.LVL2:
+  58               	/* #APP */
+  59               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+  60 0014 3197      		1: sbiw r30,1
+  61 0016 01F4      		brne 1b
+  62               	 ;  0 "" 2
+  63               	/* #NOAPP */
+  64               	.LBE22:
+  65               	.LBE23:
+  66               	.LM8:
+  67 0018 0197      		sbiw r24,1
+  68               	.LM9:
+  69 001a 01F4      		brne .L2
+  70               	.LBE24:
+  71               	.LBE25:
+  72               	.LM10:
+  73 001c 15BA      		out 53-32,__zero_reg__
+  74 001e 88E8      		ldi r24,lo8(5000)
+  75 0020 93E1      		ldi r25,hi8(5000)
+  76               	.LVL3:
+  77               	.L3:
+  78               	.LBB26:
+  79               	.LBB27:
+  80               	.LBB28:
+  81               	.LBB29:
+  82               	.LM11:
+  83 0022 F901      		movw r30,r18
+  84               	.LVL4:
+  85               	/* #APP */
+  86               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+  87 0024 3197      		1: sbiw r30,1
+  88 0026 01F4      		brne 1b
+  89               	 ;  0 "" 2
+  90               	/* #NOAPP */
+  91               	.LBE29:
+  92               	.LBE28:
+  93               	.LM12:
+  94 0028 0197      		sbiw r24,1
+  95               	.LM13:
+  96 002a 01F4      		brne .L3
+  97 002c 00C0      		rjmp .L4
+  98               	.LBE27:
+  99               	.LBE26:
+ 100               	.LFE6:
+ 126               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 led.c
+     /tmp/cc33es9X.s:2      *ABS*:0000003f __SREG__
+     /tmp/cc33es9X.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cc33es9X.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cc33es9X.s:5      *ABS*:00000034 __CCP__
+     /tmp/cc33es9X.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc33es9X.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cc33es9X.s:20     .text:00000000 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

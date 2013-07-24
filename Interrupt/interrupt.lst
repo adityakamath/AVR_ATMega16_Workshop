@@ -1,0 +1,133 @@
+   1               		.file	"interrupt.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	initint
+  20               	initint:
+  21               	.LFB6:
+  22               	.LM1:
+  23               	/* prologue: function */
+  24               	/* frame size = 0 */
+  25               	.LM2:
+  26 0000 8AB7      		in r24,90-32
+  27 0002 806A      		ori r24,lo8(-96)
+  28 0004 8ABF      		out 90-32,r24
+  29               	.LM3:
+  30 0006 89B7      		in r24,89-32
+  31 0008 806C      		ori r24,lo8(-64)
+  32 000a 89BF      		out 89-32,r24
+  33               	.LM4:
+  34               	/* #APP */
+  35               	 ;  7 "interrupt.c" 1
+  36 000c 7894      		sei
+  37               	 ;  0 "" 2
+  38               	/* epilogue start */
+  39               	.LM5:
+  40               	/* #NOAPP */
+  41 000e 0895      		ret
+  42               	.LFE6:
+  44               	.global	__vector_7
+  46               	__vector_7:
+  47               	.LFB7:
+  48               	.LM6:
+  49 0010 1F92      		push __zero_reg__
+  50 0012 0F92      		push r0
+  51 0014 0FB6      		in r0,__SREG__
+  52 0016 0F92      		push r0
+  53 0018 1124      		clr __zero_reg__
+  54 001a 8F93      		push r24
+  55               	/* prologue: Signal */
+  56               	/* frame size = 0 */
+  57               	.LM7:
+  58 001c 8AEA      		ldi r24,lo8(-86)
+  59 001e 85BB      		out 53-32,r24
+  60               	/* epilogue start */
+  61               	.LM8:
+  62 0020 8F91      		pop r24
+  63 0022 0F90      		pop r0
+  64 0024 0FBE      		out __SREG__,r0
+  65 0026 0F90      		pop r0
+  66 0028 1F90      		pop __zero_reg__
+  67 002a 1895      		reti
+  68               	.LFE7:
+  70               	.global	__vector_8
+  72               	__vector_8:
+  73               	.LFB8:
+  74               	.LM9:
+  75 002c 1F92      		push __zero_reg__
+  76 002e 0F92      		push r0
+  77 0030 0FB6      		in r0,__SREG__
+  78 0032 0F92      		push r0
+  79 0034 1124      		clr __zero_reg__
+  80 0036 8F93      		push r24
+  81               	/* prologue: Signal */
+  82               	/* frame size = 0 */
+  83               	.LM10:
+  84 0038 85E5      		ldi r24,lo8(85)
+  85 003a 85BB      		out 53-32,r24
+  86               	/* epilogue start */
+  87               	.LM11:
+  88 003c 8F91      		pop r24
+  89 003e 0F90      		pop r0
+  90 0040 0FBE      		out __SREG__,r0
+  91 0042 0F90      		pop r0
+  92 0044 1F90      		pop __zero_reg__
+  93 0046 1895      		reti
+  94               	.LFE8:
+  96               	.global	main
+  98               	main:
+  99               	.LFB9:
+ 100               	.LM12:
+ 101               	/* prologue: function */
+ 102               	/* frame size = 0 */
+ 103               	.LBB4:
+ 104               	.LBB5:
+ 105               	.LM13:
+ 106 0048 8AB7      		in r24,90-32
+ 107 004a 806A      		ori r24,lo8(-96)
+ 108 004c 8ABF      		out 90-32,r24
+ 109               	.LM14:
+ 110 004e 89B7      		in r24,89-32
+ 111 0050 806C      		ori r24,lo8(-64)
+ 112 0052 89BF      		out 89-32,r24
+ 113               	.LM15:
+ 114               	/* #APP */
+ 115               	 ;  7 "interrupt.c" 1
+ 116 0054 7894      		sei
+ 117               	 ;  0 "" 2
+ 118               	/* #NOAPP */
+ 119               	.LBE5:
+ 120               	.LBE4:
+ 121               	.LM16:
+ 122 0056 8FEF      		ldi r24,lo8(-1)
+ 123 0058 84BB      		out 52-32,r24
+ 124               	.LM17:
+ 125 005a 12B8      		out 34-32,__zero_reg__
+ 126               	.LM18:
+ 127 005c 83B9      		out 35-32,r24
+ 128               	.L8:
+ 129 005e 00C0      		rjmp .L8
+ 130               	.LFE9:
+ 180               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 interrupt.c
+     /tmp/ccT33l7V.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccT33l7V.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccT33l7V.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccT33l7V.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccT33l7V.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccT33l7V.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccT33l7V.s:20     .text:00000000 initint
+     /tmp/ccT33l7V.s:46     .text:00000010 __vector_7
+     /tmp/ccT33l7V.s:72     .text:0000002c __vector_8
+     /tmp/ccT33l7V.s:98     .text:00000048 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

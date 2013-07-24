@@ -1,0 +1,67 @@
+   1               		.file	"switch.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	main
+  20               	main:
+  21               	.LFB6:
+  22               	.LM1:
+  23               	/* prologue: function */
+  24               	/* frame size = 0 */
+  25               	.LM2:
+  26 0000 88E0      		ldi r24,lo8(8)
+  27 0002 8ABB      		out 58-32,r24
+  28               	.LM3:
+  29 0004 8FEF      		ldi r24,lo8(-1)
+  30 0006 84BB      		out 52-32,r24
+  31               	.LM4:
+  32 0008 11BA      		out 49-32,__zero_reg__
+  33               	.LM5:
+  34 000a 12B8      		out 34-32,__zero_reg__
+  35               	.LM6:
+  36 000c 82BB      		out 50-32,r24
+  37               	.LM7:
+  38 000e 83B9      		out 35-32,r24
+  39               	.L9:
+  40               	.LM8:
+  41 0010 869B      		sbis 48-32,6
+  42               	.LM9:
+  43 0012 15BA      		out 53-32,__zero_reg__
+  44               	.L2:
+  45               	.LM10:
+  46 0014 879B      		sbis 48-32,7
+  47               	.LM11:
+  48 0016 85BB      		out 53-32,r24
+  49               	.L3:
+  50               	.LM12:
+  51 0018 0E9B      		sbis 33-32,6
+  52               	.LM13:
+  53 001a 8BBB      		out 59-32,r24
+  54               	.L4:
+  55               	.LM14:
+  56 001c 0F99      		sbic 33-32,7
+  57 001e 00C0      		rjmp .L9
+  58               	.LM15:
+  59 0020 1BBA      		out 59-32,__zero_reg__
+  60 0022 00C0      		rjmp .L9
+  61               	.LFE6:
+  87               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 switch.c
+     /tmp/cc4Poqao.s:2      *ABS*:0000003f __SREG__
+     /tmp/cc4Poqao.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cc4Poqao.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cc4Poqao.s:5      *ABS*:00000034 __CCP__
+     /tmp/cc4Poqao.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc4Poqao.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cc4Poqao.s:20     .text:00000000 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

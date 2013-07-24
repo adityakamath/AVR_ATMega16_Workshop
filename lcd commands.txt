@@ -1,0 +1,11 @@
+01 clear display screen
+02 return home
+06 increment cursor (shift cursor to right)
+0C display on, cursor off
+0E display on, cursor not blinking
+0F display on, cursor blinking
+18 shift entire display to left
+1C shift entire display to right
+80 force cursor to beginning of first line
+c0 force cursor to beginning of second line
+38 2 line and 5x7 matrix

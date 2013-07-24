@@ -1,0 +1,133 @@
+   1               		.file	"pwm.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	inittimer
+  20               	inittimer:
+  21               	.LFB6:
+  22               	.LM1:
+  23               	/* prologue: function */
+  24               	/* frame size = 0 */
+  25               	.LM2:
+  26 0000 85B5      		in r24,69-32
+  27 0002 8D66      		ori r24,lo8(109)
+  28 0004 85BD      		out 69-32,r24
+  29               	/* epilogue start */
+  30               	.LM3:
+  31 0006 0895      		ret
+  32               	.LFE6:
+  34               	.global	main
+  36               	main:
+  37               	.LFB7:
+  38               	.LM4:
+  39               	/* prologue: function */
+  40               	/* frame size = 0 */
+  41               	.LBB20:
+  42               	.LBB21:
+  43               	.LM5:
+  44 0008 85B5      		in r24,69-32
+  45 000a 8D66      		ori r24,lo8(109)
+  46 000c 85BD      		out 69-32,r24
+  47               	.LBE21:
+  48               	.LBE20:
+  49               	.LM6:
+  50 000e BF9A      		sbi 55-32,7
+  51 0010 80E0      		ldi r24,lo8(0)
+  52 0012 90E0      		ldi r25,hi8(0)
+  53               	.LVL0:
+  54               	.LBB22:
+  55               	.LBB23:
+  56               	.LBB24:
+  57               	.LBB25:
+  58               	.LM7:
+  59 0014 20EA      		ldi r18,lo8(4000)
+  60 0016 3FE0      		ldi r19,hi8(4000)
+  61 0018 00C0      		rjmp .L9
+  62               	.LVL1:
+  63               	.L5:
+  64               	.LBE25:
+  65               	.LBE24:
+  66               	.LBE23:
+  67               	.LBE22:
+  68               	.LM8:
+  69 001a 83BD      		out 67-32,r24
+  70               	.LBB29:
+  71               	.LBB28:
+  72               	.LBB27:
+  73               	.LBB26:
+  74               	.LM9:
+  75 001c F901      		movw r30,r18
+  76               	.LVL2:
+  77               	/* #APP */
+  78               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+  79 001e 3197      		1: sbiw r30,1
+  80 0020 01F4      		brne 1b
+  81               	 ;  0 "" 2
+  82               	/* #NOAPP */
+  83               	.LBE26:
+  84               	.LBE27:
+  85               	.LBE28:
+  86               	.LBE29:
+  87               	.LM10:
+  88 0022 0196      		adiw r24,1
+  89               	.LVL3:
+  90               	.L9:
+  91 0024 8F3F      		cpi r24,255
+  92 0026 9105      		cpc r25,__zero_reg__
+  93 0028 01F0      		breq .L5
+  94 002a 04F0      		brlt .L5
+  95 002c 8FEF      		ldi r24,lo8(255)
+  96 002e 90E0      		ldi r25,hi8(255)
+  97               	.LVL4:
+  98               	.L6:
+  99               	.LM11:
+ 100 0030 83BD      		out 67-32,r24
+ 101               	.LBB30:
+ 102               	.LBB31:
+ 103               	.LBB32:
+ 104               	.LBB33:
+ 105               	.LM12:
+ 106 0032 F901      		movw r30,r18
+ 107               	.LVL5:
+ 108               	/* #APP */
+ 109               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 110 0034 3197      		1: sbiw r30,1
+ 111 0036 01F4      		brne 1b
+ 112               	 ;  0 "" 2
+ 113               	/* #NOAPP */
+ 114               	.LBE33:
+ 115               	.LBE32:
+ 116               	.LBE31:
+ 117               	.LBE30:
+ 118               	.LM13:
+ 119 0038 0197      		sbiw r24,1
+ 120 003a 4FEF      		ldi r20,hi8(-1)
+ 121 003c 8F3F      		cpi r24,lo8(-1)
+ 122 003e 9407      		cpc r25,r20
+ 123 0040 01F4      		brne .L6
+ 124 0042 80E0      		ldi r24,lo8(0)
+ 125 0044 90E0      		ldi r25,hi8(0)
+ 126               	.LVL6:
+ 127 0046 00C0      		rjmp .L9
+ 128               	.LFE7:
+ 162               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 pwm.c
+     /tmp/ccWZqoDq.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccWZqoDq.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccWZqoDq.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccWZqoDq.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccWZqoDq.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccWZqoDq.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccWZqoDq.s:20     .text:00000000 inittimer
+     /tmp/ccWZqoDq.s:36     .text:00000008 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
